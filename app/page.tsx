@@ -1,56 +1,84 @@
-export default function Home() {
+import { supabase } from "@/lib/supabase";
+
+export default async function Home() {
+  const { data: memes, error } = await supabase
+    .from("memes")
+    .select("*")
+    .order("id", { ascending: true });
+
+  if (error) {
+    return (
+      <main style={{ padding: "40px" }}>
+        <h1>Something went wrong</h1>
+        <p>{error.message}</p>
+      </main>
+    );
+  }
+
   return (
     <main
       style={{
         minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: "linear-gradient(135deg, #111827, #1f2937)",
+        padding: "60px 20px",
+        background: "#111827",
         color: "white",
         fontFamily: "Arial, sans-serif",
       }}
     >
       <div
         style={{
-          textAlign: "center",
-          padding: "3rem",
-          borderRadius: "20px",
-          background: "rgba(255, 255, 255, 0.08)",
-          boxShadow: "0 20px 50px rgba(0,0,0,0.3)",
-          maxWidth: "600px",
+          maxWidth: "800px",
+          margin: "0 auto",
         }}
       >
-        <p
-          style={{
-            fontSize: "0.9rem",
-            letterSpacing: "0.15em",
-            textTransform: "uppercase",
-            opacity: 0.7,
-          }}
-        >
-          Designing for GenAI
-        </p>
-
-        <h1
-          style={{
-            fontSize: "4rem",
-            margin: "0.5rem 0",
-          }}
-        >
-          Hello World 👋
+        <h1 style={{ fontSize: "3rem", marginBottom: "10px" }}>
+          The Humor Project
         </h1>
 
         <p
           style={{
-            fontSize: "1.2rem",
-            opacity: 0.85,
-            lineHeight: 1.6,
+            opacity: 0.7,
+            marginBottom: "40px",
           }}
         >
-          <br />
-          <strong>The Humor Project.</strong>
+          Memes loaded from Supabase
         </p>
+
+        <div
+          style={{
+            display: "grid",
+            gap: "20px",
+          }}
+        >
+          {memes?.map((meme) => (
+            <div
+              key={meme.id}
+              style={{
+                padding: "24px",
+                borderRadius: "16px",
+                background: "rgba(255,255,255,0.08)",
+              }}
+            >
+              <span
+                style={{
+                  fontSize: "0.85rem",
+                  opacity: 0.6,
+                  textTransform: "uppercase",
+                }}
+              >
+                {meme.category}
+              </span>
+
+              <h2 style={{ margin: "10px 0" }}>
+                {meme.title}
+              </h2>
+
+              <p style={{ opacity: 0.85 }}>
+                {meme.caption}
+              </p>
+            </div>
+          ))}
+        </div>
       </div>
     </main>
   );
