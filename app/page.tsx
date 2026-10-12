@@ -6,6 +6,23 @@ import LogoutButton from "./logout-button";
 import { createClient } from "@/lib/supabase/server";
 import Link from "next/link";
 
+type Vote = {
+  user_id: string;
+  value: number;
+};
+
+type Caption = {
+  id: string;
+  caption: string;
+  votes: Vote[];
+};
+
+type Author = {
+  first_name: string | null;
+  last_name: string | null;
+  avatar_url: string | null;
+};
+
 function formatTimeAgo(dateString: string) {
   const created = new Date(dateString);
   const now = new Date();
@@ -268,9 +285,25 @@ export default async function Home() {
           {generations && generations.length > 0 ? (
             <div className="grid gap-8 md:grid-cols-2">
               {generations.map((generation, index) => {
-                const caption = generation.captions;
+                const captionRaw =
+                  generation.captions as unknown as
+                    | Caption
+                    | Caption[];
+
+                const authorRaw =
+                  generation.profiles as unknown as
+                    | Author
+                    | Author[];
+
+                const caption = Array.isArray(captionRaw)
+                  ? captionRaw[0]
+                  : captionRaw;
+
+                const author = Array.isArray(authorRaw)
+                  ? authorRaw[0]
+                  : authorRaw;
+
                 const votes = caption?.votes ?? [];
-                const author = generation.profiles;
 
                 const upvotes = votes.filter(
                   (vote) => vote.value === 1
@@ -361,13 +394,15 @@ export default async function Home() {
                       </blockquote>
 
                       <div className="mt-6 border-t-2 border-dashed border-[var(--ink)] pt-5">
-                        <VoteButtons
-                          captionId={caption.id}
-                          userId={user?.id ?? null}
-                          initialUpvotes={upvotes}
-                          initialDownvotes={downvotes}
-                          initialUserVote={currentUserVote}
-                        />
+                        {caption && (
+                          <VoteButtons
+                            captionId={caption.id}
+                            userId={user?.id ?? null}
+                            initialUpvotes={upvotes}
+                            initialDownvotes={downvotes}
+                            initialUserVote={currentUserVote}
+                          />
+                        )}
                       </div>
                     </div>
                   </article>
