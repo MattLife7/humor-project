@@ -52,7 +52,7 @@ export default function ProfileEditor({
       return;
     }
 
-    setMessage("Profile updated successfully.");
+    setMessage("Your booth card is updated.");
 
     setTimeout(() => {
       router.push("/");
@@ -105,102 +105,155 @@ export default function ProfileEditor({
 
     setAvatar(publicUrl);
     setUploading(false);
-    setMessage("Profile photo updated.");
+    setMessage("Fresh photo. Looking sharp.");
   };
 
   return (
     <form
       onSubmit={handleSave}
-      className="rounded-3xl border border-white/10 bg-white/[0.04] p-8"
+      className="rm-card overflow-hidden bg-[var(--paper)]"
     >
-      <div className="mb-8">
-        <div className="flex items-center gap-5">
-          <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-full border border-white/10 bg-white/5">
-            {avatar ? (
-              <img
-                src={avatar}
-                alt="Profile"
-                className="h-full w-full object-cover"
-              />
-            ) : (
-              <span className="text-3xl text-gray-500">
-                👤
-              </span>
-            )}
+      <div className="border-b-2 border-[var(--ink)] bg-[var(--coral)] px-6 py-4">
+        <div className="flex items-center justify-between gap-4">
+          <div>
+            <p className="text-xs font-black uppercase tracking-[0.18em] text-[var(--ink)]/70">
+              Regular&apos;s card
+            </p>
+
+            <h2 className="rm-display mt-1 text-3xl">
+              Your profile
+            </h2>
           </div>
 
-          <div>
-            <label className="inline-flex cursor-pointer rounded-xl border border-white/10 bg-white/5 px-4 py-2 text-sm font-medium text-white transition hover:bg-white/10">
-              {uploading ? "Uploading..." : "Upload photo"}
+          <div className="rotate-[5deg] rounded-full border-2 border-[var(--ink)] bg-[var(--butter)] px-3 py-1 text-sm font-black shadow-[2px_2px_0_var(--ink)]">
+            VIP-ish
+          </div>
+        </div>
+      </div>
 
-              <input
-                type="file"
-                accept="image/*"
-                onChange={handleAvatarUpload}
-                disabled={uploading}
-                className="hidden"
-              />
+      <div className="space-y-8 p-6 sm:p-8">
+        <section>
+          <p className="mb-4 font-black">
+            Profile photo
+          </p>
+
+          <div className="flex flex-col gap-5 sm:flex-row sm:items-center">
+            <div className="relative h-32 w-32 shrink-0 rotate-[-2deg] overflow-hidden rounded-3xl border-2 border-[var(--ink)] bg-[var(--butter)] shadow-[4px_4px_0_var(--ink)]">
+              {avatar ? (
+                <img
+                  src={avatar}
+                  alt="Profile"
+                  className="h-full w-full object-cover"
+                />
+              ) : (
+                <div className="flex h-full w-full items-center justify-center text-5xl">
+                  👤
+                </div>
+              )}
+            </div>
+
+            <div>
+              <label className="rm-button-secondary cursor-pointer">
+                {uploading ? "Changing photo..." : "Change photo"}
+
+                <input
+                  type="file"
+                  accept="image/*"
+                  onChange={handleAvatarUpload}
+                  disabled={uploading}
+                  className="hidden"
+                />
+              </label>
+
+              <p className="rm-muted mt-3 max-w-xs text-sm font-medium leading-6">
+                Pick something recognizable. Or at least something less
+                embarrassing than your dinner.
+              </p>
+            </div>
+          </div>
+        </section>
+
+        <div className="border-t-2 border-dashed border-[var(--ink)]" />
+
+        <section className="space-y-6">
+          <div>
+            <label className="mb-2 block font-black">
+              Email
             </label>
 
-            <p className="mt-2 text-xs text-gray-500">
-              JPG, PNG, WebP, or another image format
+            <input
+              value={email}
+              disabled
+              className="rm-input cursor-not-allowed bg-[var(--butter)] opacity-70"
+            />
+
+            <p className="rm-muted mt-2 text-xs font-semibold">
+              This comes from your login account and can&apos;t be edited here.
             </p>
           </div>
+
+          <div className="grid gap-6 sm:grid-cols-2">
+            <div>
+              <label
+                htmlFor="first-name"
+                className="mb-2 block font-black"
+              >
+                First name
+              </label>
+
+              <input
+                id="first-name"
+                value={first}
+                onChange={(e) => setFirst(e.target.value)}
+                className="rm-input"
+                placeholder="First name"
+              />
+            </div>
+
+            <div>
+              <label
+                htmlFor="last-name"
+                className="mb-2 block font-black"
+              >
+                Last name
+              </label>
+
+              <input
+                id="last-name"
+                value={last}
+                onChange={(e) => setLast(e.target.value)}
+                className="rm-input"
+                placeholder="Last name"
+              />
+            </div>
+          </div>
+        </section>
+
+        <div className="border-t-2 border-dashed border-[var(--ink)] pt-6">
+          <button
+            type="submit"
+            disabled={saving}
+            className="rm-button-primary w-full text-lg"
+          >
+            {saving ? (
+              <>
+                <span className="animate-pulse">✍️</span>
+                Updating your card...
+              </>
+            ) : (
+              <>
+                <span>✓</span>
+                Save profile
+              </>
+            )}
+          </button>
+
+          {message && (
+            <div className="mt-5 rounded-2xl border-2 border-[var(--ink)] bg-[var(--butter)] px-4 py-3 text-center font-bold shadow-[3px_3px_0_var(--ink)]">
+              {message}
+            </div>
+          )}
         </div>
-      </div>
-
-      <div className="space-y-6">
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
-            Email
-          </label>
-
-          <input
-            value={email}
-            disabled
-            className="w-full rounded-xl border border-white/10 bg-white/[0.03] px-4 py-3 text-gray-500"
-          />
-        </div>
-
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
-            First name
-          </label>
-
-          <input
-            value={first}
-            onChange={(e) => setFirst(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-violet-400"
-          />
-        </div>
-
-        <div>
-          <label className="mb-2 block text-sm font-medium text-gray-300">
-            Last name
-          </label>
-
-          <input
-            value={last}
-            onChange={(e) => setLast(e.target.value)}
-            className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition focus:border-violet-400"
-          />
-        </div>
-      </div>
-
-      <div className="mt-8 flex items-center gap-4">
-        <button
-          type="submit"
-          disabled={saving}
-          className="rounded-xl bg-violet-500 px-5 py-3 font-semibold text-white transition hover:bg-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {saving ? "Saving..." : "Save changes"}
-        </button>
-
-        {message && (
-          <p className="text-sm text-gray-400">
-            {message}
-          </p>
-        )}
       </div>
     </form>
   );

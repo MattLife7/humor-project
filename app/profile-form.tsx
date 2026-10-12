@@ -3,14 +3,21 @@
 import { useState } from "react";
 import { createClient } from "@/lib/supabase/client";
 
-export default function ProfileForm({ userId }: { userId: string }) {
+export default function ProfileForm({
+  userId,
+}: {
+  userId: string;
+}) {
   const [firstName, setFirstName] = useState("");
   const [lastName, setLastName] = useState("");
   const [message, setMessage] = useState("");
   const [saving, setSaving] = useState(false);
 
-  const handleSubmit = async (event: React.FormEvent) => {
+  const handleSubmit = async (
+    event: React.FormEvent
+  ) => {
     event.preventDefault();
+
     setSaving(true);
     setMessage("");
 
@@ -34,78 +41,126 @@ export default function ProfileForm({ userId }: { userId: string }) {
   };
 
   return (
-    <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/70 px-4 backdrop-blur-md">
+    <div className="fixed inset-0 z-50 flex items-center justify-center bg-[rgba(36,26,22,0.55)] px-4 backdrop-blur-sm">
       <form
         onSubmit={handleSubmit}
-        className="w-full max-w-md rounded-3xl border border-white/10 bg-[#111827] p-8 shadow-2xl shadow-black/50"
+        className="rm-card relative w-full max-w-lg overflow-hidden bg-[var(--paper)]"
       >
-        <div className="mb-7">
-          <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-2xl bg-violet-500/15 text-2xl">
-            👋
-          </div>
+        <div className="border-b-2 border-[var(--ink)] bg-[var(--tomato)] px-6 py-5 text-white">
+          <div className="flex items-center justify-between gap-4">
+            <div>
+              <p className="text-xs font-black uppercase tracking-[0.18em] text-white/80">
+                First visit
+              </p>
 
-          <h2 className="text-2xl font-bold text-white">
-            Welcome to The Humor Project
-          </h2>
+              <h2 className="rm-display mt-1 text-3xl">
+                Welcome to Rate My Bite
+              </h2>
+            </div>
 
-          <p className="mt-2 leading-6 text-gray-400">
-            Before you continue, tell us a little about yourself.
-          </p>
-        </div>
-
-        <div className="space-y-4">
-          <div>
-            <label
-              htmlFor="first-name"
-              className="mb-2 block text-sm font-medium text-gray-300"
-            >
-              First name
-            </label>
-
-            <input
-              id="first-name"
-              type="text"
-              placeholder="Matan"
-              value={firstName}
-              onChange={(e) => setFirstName(e.target.value)}
-              required
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-gray-600 focus:border-violet-400 focus:bg-white/[0.08]"
-            />
-          </div>
-
-          <div>
-            <label
-              htmlFor="last-name"
-              className="mb-2 block text-sm font-medium text-gray-300"
-            >
-              Last name
-            </label>
-
-            <input
-              id="last-name"
-              type="text"
-              placeholder="Ossy"
-              value={lastName}
-              onChange={(e) => setLastName(e.target.value)}
-              required
-              className="w-full rounded-xl border border-white/10 bg-white/5 px-4 py-3 text-white outline-none transition placeholder:text-gray-600 focus:border-violet-400 focus:bg-white/[0.08]"
-            />
+            <div className="rotate-[6deg] rounded-full border-2 border-white bg-[var(--butter)] px-3 py-1 text-sm font-black text-[var(--ink)]">
+              NEW
+            </div>
           </div>
         </div>
 
-        <button
-          type="submit"
-          disabled={saving}
-          className="mt-6 w-full rounded-xl bg-violet-500 px-4 py-3 font-semibold text-white transition hover:bg-violet-400 disabled:cursor-not-allowed disabled:opacity-60"
-        >
-          {saving ? "Saving..." : "Complete profile"}
-        </button>
+        <div className="p-6 sm:p-8">
+          <div className="mb-7">
+            <div className="flex items-start gap-4">
+              <div className="flex h-16 w-16 shrink-0 rotate-[-5deg] items-center justify-center rounded-2xl border-2 border-[var(--ink)] bg-[var(--butter)] text-3xl shadow-[3px_3px_0_var(--ink)]">
+                🍕
+              </div>
 
-        {message && (
-          <p className="mt-4 text-center text-sm text-red-400">
-            {message}
-          </p>
-        )}
+              <div>
+                <h3 className="rm-display text-2xl">
+                  Grab a name tag.
+                </h3>
+
+                <p className="rm-muted mt-2 leading-6">
+                  Before you join the kitchen, tell us what name
+                  should appear next to your bites.
+                </p>
+              </div>
+            </div>
+          </div>
+
+          <div className="border-t-2 border-dashed border-[var(--ink)] pt-6">
+            <div className="grid gap-5 sm:grid-cols-2">
+              <div>
+                <label
+                  htmlFor="first-name"
+                  className="mb-2 block font-black"
+                >
+                  First name
+                </label>
+
+                <input
+                  id="first-name"
+                  type="text"
+                  placeholder="Matan"
+                  value={firstName}
+                  onChange={(e) =>
+                    setFirstName(e.target.value)
+                  }
+                  required
+                  className="rm-input"
+                />
+              </div>
+
+              <div>
+                <label
+                  htmlFor="last-name"
+                  className="mb-2 block font-black"
+                >
+                  Last name
+                </label>
+
+                <input
+                  id="last-name"
+                  type="text"
+                  placeholder="Ossy"
+                  value={lastName}
+                  onChange={(e) =>
+                    setLastName(e.target.value)
+                  }
+                  required
+                  className="rm-input"
+                />
+              </div>
+            </div>
+
+            <p className="rm-muted mt-3 text-sm font-medium">
+              This is public profile info and can appear next to
+              the bites you post.
+            </p>
+          </div>
+
+          <button
+            type="submit"
+            disabled={saving}
+            className="rm-button-primary mt-7 w-full text-lg"
+          >
+            {saving ? (
+              <>
+                <span className="animate-pulse">
+                  🍽️
+                </span>
+                Setting your table...
+              </>
+            ) : (
+              <>
+                <span>🍕</span>
+                Take me to the feed
+              </>
+            )}
+          </button>
+
+          {message && (
+            <div className="mt-5 rounded-2xl border-2 border-[var(--ink)] bg-[var(--peach)] px-4 py-3 text-center font-bold shadow-[3px_3px_0_var(--ink)]">
+              {message}
+            </div>
+          )}
+        </div>
       </form>
     </div>
   );

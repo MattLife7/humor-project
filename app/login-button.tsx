@@ -23,7 +23,7 @@ export default function LoginButton() {
     <button
       onClick={handleLogin}
       disabled={loading}
-      className="group flex items-center gap-3 rounded-xl border border-white/10 bg-white px-5 py-3 text-sm font-semibold text-gray-900 shadow-lg shadow-black/10 transition hover:-translate-y-0.5 hover:bg-gray-100 hover:shadow-xl disabled:cursor-not-allowed disabled:opacity-60"
+      className="group flex items-center gap-3 rounded-full border-2 border-[var(--ink)] bg-[var(--paper)] px-5 py-3 text-sm font-black text-[var(--ink)] shadow-[4px_4px_0_var(--ink)] transition-all duration-150 hover:-translate-y-0.5 hover:rotate-[-1deg] hover:bg-[var(--butter)] hover:shadow-[5px_5px_0_var(--ink)] disabled:cursor-not-allowed disabled:opacity-60"
     >
       <svg
         width="20"
@@ -49,7 +49,7 @@ export default function LoginButton() {
         />
       </svg>
 
-      {loading ? "Connecting..." : "Continue with Google"}
+      {loading ? "Opening the door..." : "Sign in with Google"}
     </button>
   );
 }

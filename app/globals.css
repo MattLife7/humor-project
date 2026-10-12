@@ -1,26 +1,239 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Rate My Bite palette */
+  --cream: #fcf8c8;
+  --tomato: #dc143b;
+  --coral: #e76a4c;
+  --butter: #fae7ad;
+  --peach: #f0b37c;
+
+  --ink: #241a16;
+  --muted-ink: #6f5e55;
+
+  --paper: #fffdf0;
+  --white: #ffffff;
+
+  --border: #241a16;
+  --shadow: #241a16;
+
+  --background: var(--cream);
+  --foreground: var(--ink);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+
+  --font-sans: var(--font-dm-sans);
+  --font-display: var(--font-fredoka);
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+* {
+  box-sizing: border-box;
+}
+
+html {
+  background: var(--cream);
 }
 
 body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  margin: 0;
+  min-height: 100vh;
+  background: var(--cream);
+  color: var(--ink);
+  font-family: var(--font-dm-sans), sans-serif;
+}
+
+button,
+input,
+textarea {
+  font: inherit;
+}
+
+button,
+a {
+  -webkit-tap-highlight-color: transparent;
+}
+
+::selection {
+  background: var(--tomato);
+  color: var(--white);
+}
+
+/* ---------- Typography ---------- */
+
+.rm-display {
+  font-family: var(--font-fredoka), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.04em;
+}
+
+.rm-brand {
+  font-family: var(--font-fredoka), sans-serif;
+  font-weight: 700;
+  letter-spacing: -0.03em;
+}
+
+/* ---------- Reusable surfaces ---------- */
+
+.rm-card {
+  border: 2px solid var(--border);
+  border-radius: 24px;
+  background: var(--paper);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+.rm-card-soft {
+  border: 2px solid var(--border);
+  border-radius: 20px;
+  background: var(--butter);
+  box-shadow: 4px 4px 0 var(--shadow);
+}
+
+/* ---------- Buttons ---------- */
+
+.rm-button-primary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  border: 2px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--tomato);
+  color: white;
+
+  padding: 0.75rem 1.25rem;
+
+  font-weight: 800;
+
+  box-shadow: 4px 4px 0 var(--shadow);
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
+}
+
+.rm-button-primary:hover {
+  background: #c90f34;
+  transform: translate(-1px, -1px);
+  box-shadow: 6px 6px 0 var(--shadow);
+}
+
+.rm-button-primary:active {
+  transform: translate(3px, 3px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+.rm-button-primary:disabled {
+  cursor: not-allowed;
+  opacity: 0.55;
+  transform: none;
+}
+
+.rm-button-secondary {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.5rem;
+
+  border: 2px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--paper);
+  color: var(--ink);
+
+  padding: 0.7rem 1.1rem;
+
+  font-weight: 700;
+
+  box-shadow: 3px 3px 0 var(--shadow);
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease,
+    background 120ms ease;
+}
+
+.rm-button-secondary:hover {
+  background: var(--butter);
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+.rm-button-secondary:active {
+  transform: translate(2px, 2px);
+  box-shadow: 1px 1px 0 var(--shadow);
+}
+
+/* ---------- Labels / stickers ---------- */
+
+.rm-chip {
+  display: inline-flex;
+  align-items: center;
+
+  border: 2px solid var(--border);
+  border-radius: 999px;
+
+  background: var(--butter);
+  color: var(--ink);
+
+  padding: 0.35rem 0.75rem;
+
+  font-size: 0.75rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.rm-chip-red {
+  background: var(--tomato);
+  color: white;
+}
+
+/* ---------- Inputs ---------- */
+
+.rm-input {
+  width: 100%;
+
+  border: 2px solid var(--border);
+  border-radius: 16px;
+
+  background: var(--paper);
+  color: var(--ink);
+
+  padding: 0.9rem 1rem;
+
+  outline: none;
+
+  box-shadow: 3px 3px 0 var(--shadow);
+
+  transition:
+    transform 120ms ease,
+    box-shadow 120ms ease;
+}
+
+.rm-input:focus {
+  transform: translate(-1px, -1px);
+  box-shadow: 5px 5px 0 var(--shadow);
+}
+
+.rm-input::placeholder {
+  color: #9a8579;
+}
+
+/* ---------- Misc ---------- */
+
+.rm-divider {
+  height: 2px;
+  width: 100%;
+  background: var(--ink);
+  opacity: 0.15;
+}
+
+.rm-muted {
+  color: var(--muted-ink);
 }
